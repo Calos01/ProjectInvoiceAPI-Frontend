@@ -1,0 +1,37 @@
+<form [formGroup]="invoiceform" (ngSubmit)="SaveInvoice()">
+<div class="container" style="width: 1600px;">
+    <div class="card">
+        Titulo
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>InvoiceNO</label>
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>customerId</label>
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>customerName</label>
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>deliveryAddress</label>
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
