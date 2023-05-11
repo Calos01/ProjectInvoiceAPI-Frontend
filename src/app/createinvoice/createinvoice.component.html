@@ -40,6 +40,7 @@
         <table class="table table-primary table-bordered" formArrayName="details">
             <thead>
                 <tr>
+                    <td>Index</td>
                     <td>Codigo Producto</td>
                     <td>Descripcion</td>
                     <td>Cantidad</td>
@@ -49,10 +50,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        
-                    </td>
+                <tr *ngFor="let item of invoiceproduct.controls; let i=index" [formGroupName]="i">
+                    <td>{{i+1}}</td>
+                    <td><select class="form-control" formControlName="productCode"></select></td>
+                    <td><input class="form-control" formControlName="productName"></td>
+                    <td><input class="form-control" formControlName="qty"></td>
+                    <td><input class="form-control" formControlName="salesPrice"></td>
+                    <td><input class="form-control" formControlName="total"></td>
+                    <td><button  class="btn btn-danger">Remove</button></td>
                 </tr>
             </tbody>
             <tfoot>
