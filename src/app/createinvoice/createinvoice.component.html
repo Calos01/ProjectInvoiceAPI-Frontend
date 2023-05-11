@@ -1,37 +1,89 @@
-<form [formGroup]="invoiceform" (ngSubmit)="SaveInvoice()">
-<div class="container" style="width: 1600px;">
-    <div class="card">
-        Titulo
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label>InvoiceNO</label>
-                        <input class="form-control" type="text">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label>customerId</label>
-                        <input class="form-control" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label>customerName</label>
-                        <input class="form-control" type="text">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label>deliveryAddress</label>
-                        <input class="form-control" type="text">
-                    </div>
-                </div>
+<form class="container" [formGroup]="invoiceform" (ngSubmit)="SaveInvoice()">
+  <div class="card" style="width: 1000px">
+    <h1>{{pagetitle}}</h1>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label>InvoiceNO</label>
+            <span class="text-danger">*</span>
+            <input formControlName="invoiceno" class="form-control" type="text"/>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label>customerId</label>
+            <span class="text-danger">*</span>
+            <input formControlName="customerId" class="form-control" type="text" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label>customerName</label>
+            <span class="text-danger">*</span>
+            <textarea formControlName="customerName" class="form-control" type="text"></textarea>
+            
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label>Remarks</label>
+            <span class="text-danger">*</span>
+            <textarea formControlName="remarks" class="form-control" type="text"></textarea>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <table class="table table-primary table-bordered" formArrayName="details">
+            <thead>
+                <tr>
+                    <td>Codigo Producto</td>
+                    <td>Descripcion</td>
+                    <td>Cantidad</td>
+                    <td>Precio</td>
+                    <td>Total</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <button class="btn btn-success" (click)="AddProduct()">[+]</button>
+            </tfoot>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Summary Total</label>
+                <input type="text" formControlName="total" class="form-control">
             </div>
         </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Summary Tax</label>
+                <input type="text" formControlName="tax" class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Summary NetTotal</label>
+                <input type="text" formControlName="netTotal" class="form-control">
+            </div>
+        </div> 
+      </div>
+      <br>
+      <div>
+        <input type="submit" class="btn btn-success" value="Save">
+      </div>
     </div>
-</div>
+  </div>
 </form>
