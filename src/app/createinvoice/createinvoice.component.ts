@@ -38,6 +38,10 @@ export class CreateinvoiceComponent{
     this.datadetails.push(this.GenerateRow());
   }
 
+  get invoiceproduct(){
+    return this.invoiceform.get("details") as FormArray;
+  } 
+
   GenerateRow(){
     return this.builder.group({
       invoiceno:this.builder.control(''),
