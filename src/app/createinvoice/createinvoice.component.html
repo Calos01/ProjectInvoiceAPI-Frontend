@@ -14,16 +14,18 @@
           <div class="form-group">
             <label>customerId</label>
             <span class="text-danger">*</span>
-            <input formControlName="customerId" class="form-control" type="text" />
+            <select formControlName="customerId" class="form-control" (change)="changecustomer()">
+              <option *ngFor="let item of mastercustomers" [value]="item.code" >{{item.name}}</option>
+            </select>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-6">
           <div class="form-group">
-            <label>customerName</label>
+            <label>Address</label>
             <span class="text-danger">*</span>
-            <textarea formControlName="customerName" class="form-control" type="text"></textarea>
+            <textarea formControlName="deliveryAddress" class="form-control" type="text"></textarea>
             
           </div>
         </div>
@@ -52,8 +54,12 @@
             <tbody>
                 <tr *ngFor="let item of invoiceproduct.controls; let i=index" [formGroupName]="i">
                     <td>{{i+1}}</td>
-                    <td><select class="form-control" formControlName="productCode"></select></td>
-                    <td><input class="form-control" formControlName="productName"></td>
+                    <td><select class="form-control" formControlName="productCode" (change)="changeproduct(i)">
+                      <option *ngFor="let item of masterproducts" [value]="item.code">{{item.name}}</option>
+                    </select></td>
+                    <td>
+                      <input class="form-control" formControlName="productName">
+                    </td>
                     <td><input class="form-control" formControlName="qty"></td>
                     <td><input class="form-control" formControlName="salesPrice"></td>
                     <td><input class="form-control" formControlName="total"></td>
