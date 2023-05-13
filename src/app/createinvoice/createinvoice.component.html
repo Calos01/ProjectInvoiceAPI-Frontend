@@ -60,8 +60,8 @@
                     <td>
                       <input class="form-control" formControlName="productName">
                     </td>
-                    <td><input class="form-control" formControlName="qty"></td>
-                    <td><input class="form-control" formControlName="salesPrice"></td>
+                    <td><input class="form-control" (change)="calcularTotal(i)" formControlName="qty"></td>
+                    <td><input class="form-control" (change)="calcularTotal(i)" formControlName="salesPrice"></td>
                     <td><input class="form-control" formControlName="total"></td>
                     <td><button  class="btn btn-danger">Remove</button></td>
                 </tr>

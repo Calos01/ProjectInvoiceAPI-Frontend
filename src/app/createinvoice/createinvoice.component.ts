@@ -97,7 +97,17 @@ export class CreateinvoiceComponent implements OnInit{
       if(prodid!=null){
         this.productlist.get("productName")?.setValue(prodid.name);
         this.productlist.get("salesPrice")?.setValue(prodid.price);
+        this.calcularTotal(index)
       }
     })
+  }
+  //Calcula el total price*qty este change esta en el html de price y qty
+  calcularTotal(index:any){
+    let productdetail=this.invoiceform.get("details") as FormArray;
+    this.productlist=productdetail.at(index) as FormGroup;
+    let qty= this.productlist.get("qty")?.value;
+    let price=this.productlist.get("salesPrice")?.value;
+    let total=qty*price;
+    this.productlist.get("total")?.setValue(total);
   }
 }
