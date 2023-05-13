@@ -32,8 +32,8 @@ export class CreateinvoiceComponent implements OnInit{
     customerName:this.builder.control(''),
     deliveryAddress:this.builder.control(''),
     remarks:this.builder.control(''),
-    total:this.builder.control({value:0, disabled:true}),
-    tax:this.builder.control(''),
+    summaryTotal:this.builder.control({value:0, disabled:true}),
+    tax:this.builder.control(0),
     netTotal:this.builder.control({value:0, disabled:true}),
     details:this.builder.array([])//array
   });
@@ -109,5 +109,23 @@ export class CreateinvoiceComponent implements OnInit{
     let price=this.productlist.get("salesPrice")?.value;
     let total=qty*price;
     this.productlist.get("total")?.setValue(total);
+    this.calcularpreciototal();
+  }
+
+  //CALCULO DE LOS MONTOS TOTALES
+  calcularpreciototal(){
+    //getRaw obtiene el array de objetos de los product details
+    let arrayproduct=this.invoiceform.getRawValue().details;
+    let sumtotal=0;
+    
+    arrayproduct.forEach( (x:any) => {
+      sumtotal=sumtotal+x.total;
+    });
+    let tax=(7/100)*sumtotal;
+
+    this.invoiceform.get("summaryTotal")?.setValue(sumtotal);
+    this.invoiceform.get("tax")?.setValue(tax);
+    this.invoiceform.get("netTotal")?.setValue(sumtotal+tax);
+    
   }
 }
