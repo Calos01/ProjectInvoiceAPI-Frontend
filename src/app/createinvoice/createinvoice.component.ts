@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from '../services/master.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-createinvoice',
@@ -18,7 +19,7 @@ export class CreateinvoiceComponent implements OnInit{
 
   productlist!:FormGroup<any>
 
-  constructor(private builder:FormBuilder, private _service:MasterService, private router:Router) {
+  constructor(private builder:FormBuilder, private _service:MasterService, private router:Router, private validacion:ToastrService) {
     
   }
   ngOnInit(): void {
@@ -46,7 +47,13 @@ export class CreateinvoiceComponent implements OnInit{
   //pushear lo obtenido en el generateRow
   AddProduct(){
     this.datadetails=this.invoiceform.get("details") as FormArray;
-    this.datadetails.push(this.GenerateRow());
+    let customid= this.invoiceform.get("customerId")?.value;
+    if(customid!=null && customid!=''){
+      this.datadetails.push(this.GenerateRow());
+    }
+    else{
+      this.validacion.warning("Elija primero el id del customer",'Advertencia');
+    }
   }
 
   get invoiceproduct(){
