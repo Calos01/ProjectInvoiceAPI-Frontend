@@ -7,7 +7,7 @@
           <div class="form-group">
             <label>InvoiceNO</label>
             <span class="text-danger">*</span>
-            <input formControlName="invoiceno" class="form-control" type="text"/>
+            <input formControlName="invoiceno" class="form-control"/>
           </div>
         </div>
         <div class="col-lg-6">
@@ -43,6 +43,7 @@
             <thead>
                 <tr>
                     <td>Index</td>
+                    <!-- <td>invocieno</td> -->
                     <td>Codigo Producto</td>
                     <td>Descripcion</td>
                     <td>Cantidad</td>
@@ -54,7 +55,7 @@
             <tbody>
                 <tr *ngFor="let item of invoiceproduct.controls; let i=index" [formGroupName]="i">
                     <td>{{i+1}}</td>
-                    <td><select class="form-control" formControlName="productCode" (change)="changeproduct(i)">
+                    <td><select class="form-control" (change)="changeproduct(i)" formControlName="productCode">
                       <option *ngFor="let item of masterproducts" [value]="item.code">{{item.name}}</option>
                     </select></td>
                     <td>
@@ -93,8 +94,10 @@
       </div>
       <br>
       <div>
-        <input type="submit" class="btn btn-success" value="Save">
+        <input type="submit" class="btn btn-success" value="Save"> | 
+        <a class="btn btn-danger" routerLink="/">Volver</a>
       </div>
     </div>
   </div>
 </form>
+
