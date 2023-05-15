@@ -12,12 +12,12 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateinvoiceComponent implements OnInit{
   
   pagetitle='Crear Invoice'
+  //esta variable es importante se va estar reutilizando en los metodos
   datadetails!:FormArray<any>
+  productlist!:FormGroup<any>
 
   mastercustomers:any;
   masterproducts:any;
-
-  productlist!:FormGroup<any>
 
   constructor(private builder:FormBuilder, private _service:MasterService, private router:Router, private validacion:ToastrService) {
     
@@ -34,13 +34,31 @@ export class CreateinvoiceComponent implements OnInit{
     deliveryAddress:this.builder.control(''),
     remarks:this.builder.control(''),
     summaryTotal:this.builder.control({value:0, disabled:true}),
-    tax:this.builder.control(0),
+    tax:this.builder.control({value:0, disabled:true}),
     netTotal:this.builder.control({value:0, disabled:true}),
     details:this.builder.array([])//array
   });
   //funcion boton save
   SaveInvoice(){
-    console.log(this.invoiceform.value);
+    // console.log(this.invoiceform.getRawValue());
+    // console.log(this.invoiceform.valid);
+    //validamos si esta correcto el invoice form
+    if(this.invoiceform.valid){
+      this._service.SaveInvoice(this.invoiceform.getRawValue()).subscribe(data=>{
+        let resultado:any;
+        resultado=data;
+        console.log(resultado);
+        // if(resultado.respuesta=='PASO'){
+        //   this.validacion.success("SE GUARDO EXITOSAMENTE","El CODIGO "+resultado.keyvalue)
+        //   // this.router.navigate(["/"]);
+        // }else{
+        //   this.validacion.error("ERROR NO SE GUARDO", "INVOICE")
+        // }
+      })
+    }
+    else{
+      this.validacion.error("ERROR NO ESTA VALIDADO", "INVOICE")
+    }
   }
   //funcion boton add tABLA pRODUCTS
   //obtener details del invoiceform y almacenar en datadetails
@@ -89,17 +107,18 @@ export class CreateinvoiceComponent implements OnInit{
       customerid=data;
       if(customerid!=null){
         this.invoiceform.get("deliveryAddress")?.setValue(customerid.address+","+customerid.phoneno+","+customerid.email)
+        this.invoiceform.get("customerName")?.setValue(customerid.name)//name y no customername porque esta jalando de la api de customer
       }
     }
     )
   }
   changeproduct(index:any){
-    let productdetail=this.invoiceform.get("details") as FormArray;
-    this.productlist=productdetail.at(index) as FormGroup;//trae del array detail del invoiceform, la posicion(index) y lo pasa en un formGroup
+    this.datadetails=this.invoiceform.get("details") as FormArray;
+    this.productlist=this.datadetails.at(index) as FormGroup;//trae del array detail del invoiceform, la posicion(index) y lo pasa en un formGroup
     let productCode=this.productlist.get("productCode")?.value;//de ese array obtenemo el productCode para jalar de la api de products
     this._service.GetProductsById(productCode).subscribe(data=>{//
       let prodid:any;
-      console.log(data);
+      // console.log(data);
       prodid=data;
       if(prodid!=null){
         this.productlist.get("productName")?.setValue(prodid.name);
@@ -110,8 +129,8 @@ export class CreateinvoiceComponent implements OnInit{
   }
   //Calcula el total price*qty este change esta en el html de price y qty
   calcularTotal(index:any){
-    let productdetail=this.invoiceform.get("details") as FormArray;
-    this.productlist=productdetail.at(index) as FormGroup;
+    this.datadetails=this.invoiceform.get("details") as FormArray;
+    this.productlist=this.datadetails.at(index) as FormGroup;
     let qty= this.productlist.get("qty")?.value;
     let price=this.productlist.get("salesPrice")?.value;
     let total=qty*price;

@@ -3,6 +3,34 @@
     <div class="card-header">
         <div class="card-container">
             <button type="button" class="btn btn-success" routerLink="createinvoice">Success</button>
+            <table class="table">
+                <thead class="bg-black text-white">
+                    <tr>
+                        <td>InvoiceNo</td>
+                        <td>Customer</td> 
+                        <td>Remarks</td>
+                        <td>Total</td> 
+                        <td>Tax</td> 
+                        <td>NetTotal</td>
+                        <td>Action</td> 
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of invoiceHeader">
+                        <td>{{item.invoiceNo}}</td>
+                        <td>{{item.customerId}}</td>
+                        <td>{{item.remarks}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.tax}}</td>
+                        <td>{{item.netTotal}}</td>
+                        <td>
+                            <button class="btn btn-primary" routerLink="createinvoice">Editar</button>
+                            <button class="btn btn-danger" (click)="EliminarInvoice(item.invoiceNo)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
