@@ -43,22 +43,27 @@ export class CreateinvoiceComponent implements OnInit{
     // console.log(this.invoiceform.getRawValue());
     // console.log(this.invoiceform.valid);
     //validamos si esta correcto el invoice form
-    if(this.invoiceform.valid){
-      this._service.SaveInvoice(this.invoiceform.getRawValue()).subscribe(data=>{
-        let resultado:any;
-        resultado=data;
-        console.log(resultado);
-        // if(resultado.respuesta=='PASO'){
-        //   this.validacion.success("SE GUARDO EXITOSAMENTE","El CODIGO "+resultado.keyvalue)
-        //   // this.router.navigate(["/"]);
-        // }else{
-        //   this.validacion.error("ERROR NO SE GUARDO", "INVOICE")
-        // }
-      })
-    }
-    else{
-      this.validacion.error("ERROR NO ESTA VALIDADO", "INVOICE")
-    }
+    console.log(this.invoiceform);
+   
+      if(this.invoiceform.valid){
+        console.log(this.invoiceform.getRawValue());
+        this._service.SaveInvoice(this.invoiceform.getRawValue()).subscribe((data)=>{
+          let resultado:any;
+          resultado=data;
+          console.log(resultado);
+        
+          if(resultado.respuesta=='PASO'){
+            this.validacion.success("SE GUARDO EXITOSAMENTE","El CODIGO "+resultado.keyvalue)
+            // this.router.navigate(["/"]);
+          }else{
+            this.validacion.error("ERROR NO SE GUARDO", "INVOICE")
+          }
+        }
+        );
+      }    
+      else{
+        this.validacion.error("ERROR NO ESTA VALIDADO", "INVOICE")
+      }
   }
   //funcion boton add tABLA pRODUCTS
   //obtener details del invoiceform y almacenar en datadetails
