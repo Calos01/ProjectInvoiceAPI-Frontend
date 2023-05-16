@@ -54,7 +54,7 @@ export class CreateinvoiceComponent implements OnInit{
         
           if(resultado.respuesta=='PASO'){
             this.validacion.success("SE GUARDO EXITOSAMENTE","El CODIGO "+resultado.keyvalue)
-            // this.router.navigate(["/"]);
+            this.router.navigate(["/"]);
           }else{
             this.validacion.error("ERROR NO SE GUARDO", "INVOICE")
           }
