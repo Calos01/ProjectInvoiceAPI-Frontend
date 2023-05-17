@@ -33,7 +33,7 @@ export class CreateinvoiceComponent implements OnInit{
     customerName:this.builder.control(''),
     deliveryAddress:this.builder.control(''),
     remarks:this.builder.control(''),
-    summaryTotal:this.builder.control({value:0, disabled:true}),
+    total:this.builder.control({value:0, disabled:true}),
     tax:this.builder.control({value:0, disabled:true}),
     netTotal:this.builder.control({value:0, disabled:true}),
     details:this.builder.array([])//array
@@ -152,9 +152,10 @@ export class CreateinvoiceComponent implements OnInit{
     arrayproduct.forEach( (x:any) => {
       sumtotal=sumtotal+x.total;
     });
+    console.log(sumtotal);
     let tax=(7/100)*sumtotal;
 
-    this.invoiceform.get("summaryTotal")?.setValue(sumtotal);
+    this.invoiceform.get("total")?.setValue(sumtotal);
     this.invoiceform.get("tax")?.setValue(tax);
     this.invoiceform.get("netTotal")?.setValue(sumtotal+tax);
     

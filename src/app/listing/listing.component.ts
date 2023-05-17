@@ -25,11 +25,19 @@ export class ListingComponent implements OnInit {
   }
 
   EliminarInvoice(code:any){
-    this._service.DeleteInvoice(code).subscribe(data=>{
-      this.advise.warning("Se ha eliminiado el codigo");
-      console.log(data);
-      this.CargarInvoices();
-    })
+    if(confirm("Desea eliminar el Invoice: "+code)){
+      this._service.DeleteInvoice(code).subscribe(data=>{
+        let res: any;
+        res=data;
+        if(res.respuesta=="PASO"){
+          this.advise.warning("Se ha eliminiado el codigo");
+          console.log(data);
+          this.CargarInvoices();
+        }else{
+          this.advise.error("No se pudo borrar")
+        }
+      })
+    }
   }
 
 }
