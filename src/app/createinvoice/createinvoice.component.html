@@ -63,7 +63,7 @@
                     </td>
                     <td><input class="form-control" (change)="calcularTotal(i)" formControlName="qty"></td>
                     <td><input class="form-control" (change)="calcularTotal(i)" formControlName="salesPrice"></td>
-                    <td><input class="form-control" formControlName="total"></td>
+                    <td><input class="form-control" (change)="calcularTotal(i)" formControlName="total"></td>
                     <td><button  class="btn btn-danger">Remove</button></td>
                 </tr>
             </tbody>
@@ -81,7 +81,7 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label>Summary Total</label>
-                <input type="number" formControlName="summaryTotal" class="form-control">
+                <input type="number" formControlName="total" class="form-control">
             </div>
         </div>
         <div class="col-lg-4">
