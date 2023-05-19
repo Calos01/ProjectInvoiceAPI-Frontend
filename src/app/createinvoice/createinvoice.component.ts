@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from '../services/master.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -19,16 +19,28 @@ export class CreateinvoiceComponent implements OnInit{
   mastercustomers:any;
   masterproducts:any;
 
-  constructor(private builder:FormBuilder, private _service:MasterService, private router:Router, private validacion:ToastrService) {
+  editdetails:any;
+  editinvoice:any;
+  isedit=false;
+
+  constructor(private builder:FormBuilder, private _service:MasterService, private router:Router, private validacion:ToastrService, private activate:ActivatedRoute) {
     
   }
   ngOnInit(): void {
     this.ObtenerCustomers();
     this.ObtenerProducts();
+    
+    this.editinvoice=this.activate.snapshot.paramMap.get('invoiceno');//ivoiceno es del url q esta en el routing
+    if(this.editinvoice!=null){
+      this.pagetitle='Editar Invoice'
+      this.isedit=true;
+
+      this.EditarInvoice(this.editinvoice);
+    }
   }
   // jalara los datos que envia el formulario
   invoiceform=this.builder.group({
-    invoiceno:this.builder.control('', Validators.required),
+    invoiceNo:this.builder.control('', Validators.required),
     customerId:this.builder.control('', Validators.required),
     customerName:this.builder.control(''),
     deliveryAddress:this.builder.control(''),
@@ -38,6 +50,32 @@ export class CreateinvoiceComponent implements OnInit{
     netTotal:this.builder.control({value:0, disabled:true}),
     details:this.builder.array([])//array
   });
+
+  EditarInvoice(invoiceno:any){
+    this._service.GetInvoiceDetails(invoiceno).subscribe(data=>{
+      this.editdetails=data;
+      for (let i = 0; i < this.editdetails.length; i++) {
+        this.AddProduct();
+      }
+    });
+    this._service.GetInvoiceById(invoiceno).subscribe(data=>{
+      let invoiceid:any;
+      invoiceid=data;
+      if(invoiceid!=null){
+        this.invoiceform.setValue({
+          invoiceNo: invoiceid.invoiceNo,
+          customerId: invoiceid.customerId,
+          customerName: invoiceid.customerName,
+          deliveryAddress: invoiceid.deliveryAddress,
+          remarks:invoiceid.remarks,
+          total:invoiceid.total,
+          tax:invoiceid.tax,
+          netTotal:invoiceid.netTotal,
+          details:this.editdetails
+        })
+      }
+    })
+  }
   //funcion boton save
   SaveInvoice(){
     // console.log(this.invoiceform.getRawValue());
@@ -71,7 +109,7 @@ export class CreateinvoiceComponent implements OnInit{
   AddProduct(){
     this.datadetails=this.invoiceform.get("details") as FormArray;
     let customid= this.invoiceform.get("customerId")?.value;
-    if(customid!=null && customid!=''){
+    if((customid!=null && customid!='') || this.isedit){
       this.datadetails.push(this.GenerateRow());
     }
     else{
@@ -85,7 +123,7 @@ export class CreateinvoiceComponent implements OnInit{
 
   GenerateRow(){
     return this.builder.group({
-      invoiceno:this.builder.control(''),
+      invoiceNo:this.builder.control(''),
       productCode:this.builder.control('', Validators.required),
       productName:this.builder.control(''),
       qty:this.builder.control(1),

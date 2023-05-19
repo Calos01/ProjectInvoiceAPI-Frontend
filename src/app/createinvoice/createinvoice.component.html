@@ -7,7 +7,7 @@
           <div class="form-group">
             <label>InvoiceNO</label>
             <span class="text-danger">*</span>
-            <input formControlName="invoiceno" class="form-control"/>
+            <input formControlName="invoiceNo" class="form-control"/>
           </div>
         </div>
         <div class="col-lg-6">
@@ -15,7 +15,7 @@
             <label>customerId</label>
             <span class="text-danger">*</span>
             <select formControlName="customerId" class="form-control" (change)="changecustomer()">
-              <option *ngFor="let item of mastercustomers" [value]="item.code" >{{item.name}}</option>
+              <option *ngFor="let item of mastercustomers" [value]="item.code">{{item.name}}</option>
             </select>
           </div>
         </div>
