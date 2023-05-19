@@ -15,7 +15,7 @@
             <label>customerId</label>
             <span class="text-danger">*</span>
             <select formControlName="customerId" class="form-control" (change)="changecustomer()">
-              <option *ngFor="let item of mastercustomers" [value]="item.code">{{item.name}}</option>
+              <option *ngFor="let item of mastercustomers" [value]="item.code" >{{item.name}}</option>
             </select>
           </div>
         </div>
@@ -64,7 +64,7 @@
                     <td><input class="form-control" (change)="calcularTotal(i)" formControlName="qty"></td>
                     <td><input class="form-control" (change)="calcularTotal(i)" formControlName="salesPrice"></td>
                     <td><input class="form-control" (change)="calcularTotal(i)" formControlName="total"></td>
-                    <td><button  class="btn btn-danger">Remove</button></td>
+                    <td><button  class="btn btn-danger" (click)="EliminarProducto(i)">Remove</button></td>
                 </tr>
             </tbody>
             <tfoot>

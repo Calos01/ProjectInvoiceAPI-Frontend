@@ -30,7 +30,7 @@ export class CreateinvoiceComponent implements OnInit{
     this.ObtenerCustomers();
     this.ObtenerProducts();
     
-    this.editinvoice=this.activate.snapshot.paramMap.get('invoiceno');//ivoiceno es del url q esta en el routing
+    this.editinvoice=this.activate.snapshot.paramMap.get('invoice');//ivoiceno es del url q esta en el routing
     if(this.editinvoice!=null){
       this.pagetitle='Editar Invoice'
       this.isedit=true;
@@ -51,30 +51,35 @@ export class CreateinvoiceComponent implements OnInit{
     details:this.builder.array([])//array
   });
 
+  //Para que se renderize los datos en los inputs(SETEADO)
   EditarInvoice(invoiceno:any){
     this._service.GetInvoiceDetails(invoiceno).subscribe(data=>{
       this.editdetails=data;
       for (let i = 0; i < this.editdetails.length; i++) {
         this.AddProduct();
       }
+      //TIENE QUE ESTAR DENTRO ESTA LLAMADA DE API(GetInvoiceById) DENTRO DE LA OTRA API(GetInvoiceDetails) PORQ LA ANTERIOR DEMORA Y SE EJECUTA ESTA Y DA ERROR
+      this.invoiceform.get('details')?.patchValue(this.editdetails)
+      this._service.GetInvoiceById(invoiceno).subscribe(data=>{
+        let invoiceid:any;
+        invoiceid=data;
+        if(invoiceid!=null){
+          this.invoiceform.setValue({
+            invoiceNo: invoiceid.invoiceNo,
+            customerId: invoiceid.customerId,
+            customerName: invoiceid.customerName,
+            deliveryAddress: invoiceid.deliveryAddress,
+            remarks:invoiceid.remarks,
+            total:invoiceid.total,
+            tax:invoiceid.tax,
+            netTotal:invoiceid.netTotal,
+            details: this.editdetails
+          })
+          console.log(this.invoiceform);
+        }
+      })
     });
-    this._service.GetInvoiceById(invoiceno).subscribe(data=>{
-      let invoiceid:any;
-      invoiceid=data;
-      if(invoiceid!=null){
-        this.invoiceform.setValue({
-          invoiceNo: invoiceid.invoiceNo,
-          customerId: invoiceid.customerId,
-          customerName: invoiceid.customerName,
-          deliveryAddress: invoiceid.deliveryAddress,
-          remarks:invoiceid.remarks,
-          total:invoiceid.total,
-          tax:invoiceid.tax,
-          netTotal:invoiceid.netTotal,
-          details:this.editdetails
-        })
-      }
-    })
+    
   }
   //funcion boton save
   SaveInvoice(){
@@ -91,8 +96,13 @@ export class CreateinvoiceComponent implements OnInit{
           console.log(resultado);
         
           if(resultado.respuesta=='PASO'){
-            this.validacion.success("SE GUARDO EXITOSAMENTE","El CODIGO "+resultado.keyvalue)
-            this.router.navigate(["/"]);
+            if(this.isedit){
+              this.validacion.success("SE MODIFICO EXITOSAMENTE","El CODIGO "+resultado.keyvalue)
+              this.router.navigate(["/"]);
+            }else{
+              this.validacion.success("SE GUARDO EXITOSAMENTE","El CODIGO "+resultado.keyvalue)
+              this.router.navigate(["/"]);
+            }
           }else{
             this.validacion.error("ERROR NO SE GUARDO", "INVOICE")
           }
@@ -170,6 +180,12 @@ export class CreateinvoiceComponent implements OnInit{
       }
     })
   }
+  //quitar producto
+  EliminarProducto(index:any){
+    this.invoiceproduct.removeAt(index);
+    this.calcularpreciototal();
+  }
+
   //Calcula el total price*qty este change esta en el html de price y qty
   calcularTotal(index:any){
     this.datadetails=this.invoiceform.get("details") as FormArray;

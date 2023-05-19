@@ -21,7 +21,6 @@ export class ListingComponent implements OnInit {
   CargarInvoices(){
     this._service.GetAllInvoice().subscribe(data=>{
       this.invoiceHeader=data;
-      console.log(this.invoiceHeader);
     })
   }
 
@@ -34,8 +33,8 @@ export class ListingComponent implements OnInit {
       this._service.DeleteInvoice(code).subscribe(data=>{
         let res: any;
         res=data;
-        if(res.respuesta=="PASO"){
-          this.advise.warning("Se ha eliminiado el codigo");
+        if(res.respuesta=="Paso"){
+          this.advise.warning("Se ha eliminiado el codigo: "+code);
           console.log(data);
           this.CargarInvoices();
         }else{
