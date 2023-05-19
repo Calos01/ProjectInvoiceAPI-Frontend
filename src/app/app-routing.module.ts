@@ -6,7 +6,7 @@ import { ListingComponent } from './listing/listing.component';
 const routes: Routes = [
   {component:ListingComponent, path:''},
   {component:CreateinvoiceComponent, path:'createinvoice'},
-  {component:CreateinvoiceComponent, path:'editinvoice/:invoiceno'}
+  {component:CreateinvoiceComponent, path:'editinvoice/:invoice'}
 ];
 
 @NgModule({
