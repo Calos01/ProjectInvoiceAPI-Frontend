@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MasterService } from '../services/master.service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listing',
@@ -10,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ListingComponent implements OnInit {
   invoiceHeader: any;
-  constructor(private _service:MasterService, private advise:ToastrService) {
+  constructor(private _service:MasterService, private advise:ToastrService, private router:Router) {
     
   }
   ngOnInit(): void {
@@ -22,6 +23,10 @@ export class ListingComponent implements OnInit {
       this.invoiceHeader=data;
       console.log(this.invoiceHeader);
     })
+  }
+
+  EditInvoice(invoiceno:any){
+    this.router.navigateByUrl('editinvoice/'+invoiceno)
   }
 
   EliminarInvoice(code:any){

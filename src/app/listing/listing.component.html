@@ -25,7 +25,7 @@
                         <td>{{item.tax | currency}}</td>
                         <td>{{item.netTotal | currency}}</td>
                         <td>
-                            <button class="btn btn-primary" routerLink="createinvoice">Editar</button>
+                            <button class="btn btn-primary" (click)="EditInvoice(item.invoiceNo)">Editar</button>
                             <button class="btn btn-danger" (click)="EliminarInvoice(item.invoiceNo)">Eliminar</button>
                         </td>
                     </tr>
