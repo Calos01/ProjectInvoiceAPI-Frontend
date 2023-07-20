@@ -1,8 +1,9 @@
-<div class="card" style="width: 1200px;"  >
+<div class="card mt-5" style="width: 1200px;"  >
     <h2>Listado Inventario</h2>
     <div class="card-header">
         <div class="card-container">
-            <button type="button" class="btn btn-success" routerLink="createinvoice">Agregar [+]</button>
+            <button type="button" class="btn btn-success mb-2" routerLink="createinvoice">Agregar [+]</button>
+            
             <table class="table">
                 <thead class="bg-black text-white">
                     <tr>
@@ -12,7 +13,7 @@
                         <td>Total</td> 
                         <td>Tax</td> 
                         <td>NetTotal</td>
-                        <td>Action</td> 
+                        <td class="text-center">Action</td> 
                     </tr>
                     
                 </thead>
@@ -24,9 +25,9 @@
                         <td>{{item.total | currency}}</td>
                         <td>{{item.tax | currency}}</td>
                         <td>{{item.netTotal | currency}}</td>
-                        <td>
-                            <button class="btn btn-primary" (click)="EditInvoice(item.invoiceNo)">Editar</button>
-                            <button class="btn btn-danger" (click)="EliminarInvoice(item.invoiceNo)">Eliminar</button>
+                        <td class="text-center">
+                            <button class="btn btn-primary mx-2" (click)="EditInvoice(item.invoiceNo)">Editar</button>
+                            <button class="btn btn-danger mx-2" (click)="EliminarInvoice(item.invoiceNo)">Eliminar</button>
                         </td>
                     </tr>
                 </tbody>
